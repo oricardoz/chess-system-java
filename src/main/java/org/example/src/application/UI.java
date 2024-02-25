@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class UI {
 
+    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -29,26 +30,33 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public static ChessPosition readChessPosition(Scanner sc ){
-        try{
+    // https://stackoverflow.com/questions/2979383/java-clear-the-console
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static ChessPosition readChessPosition(Scanner sc) {
+        try {
             String s = sc.nextLine();
             char column = s.charAt(0);
             int row = Integer.parseInt(s.substring(1));
-            return new ChessPosition(column,row);
-        } catch (RuntimeException e) {
-            throw new InputMismatchException("Error reading ChessPosition. Valid positions are from a1 to h8");
+            return new ChessPosition(column, row);
+        }
+        catch (RuntimeException e) {
+            throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
         }
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
-            for (int i=0; i< pieces.length; i++){
-                System.out.print((8 - i) + " ");
-                for(int j=0; j< pieces.length; j++){
-                    printPiece(pieces[i][j]);
-                }
-                System.out.println();
+        for (int i = 0; i < pieces.length; i++) {
+            System.out.print((8 - i) + " ");
+            for (int j = 0; j < pieces.length; j++) {
+                printPiece(pieces[i][j]);
             }
-            System.out.println("  a b c d e f g h");
+            System.out.println();
+        }
+        System.out.println("  a b c d e f g h");
     }
 
     private static void printPiece(ChessPiece piece) {
